@@ -15,7 +15,8 @@ import {
 } from "react-icons/fi";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type SidebarProps = {
   children: React.ReactNode;
@@ -26,6 +27,13 @@ const Sidebar = ({ children }: SidebarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const user = useAppSelector(selectCurrentUser);
   const pathname = usePathname();
+  const router = useRouter();
+
+  if (!user) {
+    router.push("/login");
+
+    toast.warning("Please login first");
+  }
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -199,7 +207,6 @@ const Sidebar = ({ children }: SidebarProps) => {
                     </svg>
                   </Link>
                 </div>
- 
               </div>
             </div>
           </div>

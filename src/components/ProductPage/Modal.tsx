@@ -27,26 +27,43 @@ const ItemDetailsModal = ({
   const [createOrder] = useCreateOrderMutation();
 
   const handlePurchase = async () => {
+    // Check if user exists
+    if (!user) {
+      toast.warning("Please login to complete your purchase");
+      router.push("/login"); // Redirect to login if user is not logged in
+      return;
+    }
+  
+    // Check if user data (phone and address) is complete
     if (!(userData?.data?.phone && userData?.data?.address)) {
-      router.push("/dashboard/profile");
       toast.warning("Please complete your profile first");
-    } else {
-      const toastId = toast.loading("Purchasing...");
-      const order = {
-        buyer: user?.id,
-        seller: item?.userId,
-        products: [{ product: item?._id }],
-        totalPrice: item.price,
-      };
-
+      router.push("/dashboard/profile"); // Redirect to profile page to complete information
+      return;
+    }
+  
+    // Proceed with purchasing logic if user is authenticated and data is complete
+    const toastId = toast.loading("Purchasing...");
+    
+    const order = {
+      buyer: user?.id,
+      seller: item?.userId,
+      products: [{ product: item?._id }],
+      totalPrice: item.price,
+    };
+  
+    try {
       const res = await createOrder(order);
       console.log(res);
+      
       if (res?.data?.success) {
         toast.success("Item Purchased Success", { id: toastId });
         window.location.href = res?.data?.data;
       } else {
-        toast.error("Item Purchased Failed", { id: toastId });
+        toast.error("Item Purchase Failed", { id: toastId });
       }
+    } catch (error) {
+      toast.error("Error while purchasing item", { id: toastId });
+      console.error(error);
     }
   };
 

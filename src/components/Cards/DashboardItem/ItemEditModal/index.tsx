@@ -271,7 +271,6 @@ export default function ItemEditModal({
                             <option value="Uncategorized">
                               Select Category
                             </option>
-                            <option value="Fashion">Fashion</option>
                             <option value="Electronics">Electronics</option>
                             <option value="Furniture">Furniture</option>
                             <option value=" Books & Stationery">

@@ -249,8 +249,9 @@ export default function ListItem({
                             })}
                             className="w-full pl-8 pr-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                           >
-                            <option value="Uncategorized">Select Category</option>
-                            <option value="Fashion">Fashion</option>
+                            <option value="Uncategorized">
+                              Select Category
+                            </option>
                             <option value="Electronics">Electronics</option>
                             <option value="Furniture">Furniture</option>
                             <option value=" Books & Stationery">
@@ -258,12 +259,18 @@ export default function ListItem({
                             </option>
                             <option value="Toys & Games">Toys & Games</option>
                             <option value="Home Decor">Home Decor</option>
-                            <option value="Sports Equipment">Sports Equipment</option>
-                            <option value="Tools & Equipment">Tools & Equipment</option>
+                            <option value="Sports Equipment">
+                              Sports Equipment
+                            </option>
+                            <option value="Tools & Equipment">
+                              Tools & Equipment
+                            </option>
                             <option value="Musical Instruments">
                               Musical Instruments
                             </option>
-                            <option value="Health & Fitness">Health & Fitness</option>
+                            <option value="Health & Fitness">
+                              Health & Fitness
+                            </option>
                             <option value="Collectibles & Art">
                               Collectibles & Art
                             </option>
