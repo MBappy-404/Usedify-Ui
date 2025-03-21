@@ -75,6 +75,7 @@ export default function ProductPages() {
   // Categories and Conditions
   const categories = [
     "Electronics",
+    "Fashion",
     "Furniture",
     "Books & Stationery",
     "Toys & Games",

@@ -254,6 +254,7 @@ export default function ListItem({
                             </option>
                             <option value="Electronics">Electronics</option>
                             <option value="Furniture">Furniture</option>
+                            <option value="Fashion">Fashion</option>
                             <option value=" Books & Stationery">
                               Books & Stationery
                             </option>
@@ -274,7 +275,7 @@ export default function ListItem({
                             <option value="Collectibles & Art">
                               Collectibles & Art
                             </option>
-                            <option value="Furniture">Uncategorized</option>
+                            <option value="Uncategorized">Uncategorized</option>
                           </select>
                         </div>
                         {errors.category && (

@@ -56,7 +56,7 @@ const Navbar = () => {
         <div className="flex justify-between py-5">
           {/* Left section */}
           <div className="flex items-center text-xl">
-            <Link href="/" className="text-white text-2xl font-bold">
+            <Link href="/" className="text-white text-2xl md:text-3xl font-bold">
               UseDify
             </Link>
 
@@ -179,7 +179,7 @@ const Navbar = () => {
                 href={item.href}
                 onClick={() => setIsMenuOpen(false)}
                 className={`block px-3 py-2 text-white text-xl ${
-                  pathname === item.href ? "font-bold bg-blue-800 rounded-md" : ""
+                  pathname === item.href ? "font-bold bg-gradient-to-l from-transparent  to-blue-500 rounded-md" : "hover:bg-gradient-to-l from-transparent  to-blue-500  rounded-md"
                 }`}
               >
                 {item.label}
@@ -190,20 +190,20 @@ const Navbar = () => {
                 <Link
                   href="/dashboard/manage-items"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block px-3 py-2 text-white text-xl hover:bg-blue-800 rounded-md"
+                  className="block px-3 py-2 text-white text-xl hover:bg-gradient-to-l from-transparent  to-blue-500 rounded-md"
                 >
                   Dashboard
                 </Link>
                 <Link
                   href="/dashboard/profile"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block px-3 py-2 text-white text-xl hover:bg-blue-800 rounded-md"
+                  className="block px-3 py-2 text-white text-xl hover:bg-gradient-to-l from-transparent  to-blue-500 rounded-md"
                 >
                   Profile
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="block w-full text-left px-3 py-2 text-white text-xl hover:bg-blue-800 rounded-md"
+                  className="block w-full text-left px-3 py-2 text-white text-xl hover:bg-gradient-to-l from-transparent  to-blue-500 rounded-md"
                 >
                   Logout
                 </button>
@@ -212,7 +212,7 @@ const Navbar = () => {
               <Link
                 href="/login"
                 onClick={() => setIsMenuOpen(false)}
-                className="block px-3 py-2 text-white text-xl hover:bg-blue-800 rounded-md"
+                className="block px-3 py-2 text-white text-xl hover:bg-gradient-to-l from-transparent  to-blue-500 rounded-md"
               >
                 Login
               </Link>

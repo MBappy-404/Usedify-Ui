@@ -273,6 +273,7 @@ export default function ItemEditModal({
                             </option>
                             <option value="Electronics">Electronics</option>
                             <option value="Furniture">Furniture</option>
+                            <option value="Fashion">Fashion</option>
                             <option value=" Books & Stationery">
                               Books & Stationery
                             </option>
@@ -293,7 +294,7 @@ export default function ItemEditModal({
                             <option value="Collectibles & Art">
                               Collectibles & Art
                             </option>
-                            <option value="Furniture">Uncategorized</option>
+                            <option value="Uncategorized">Uncategorized</option>
                           </select>
                         </div>
                         {errors.category && (
@@ -364,7 +365,7 @@ export default function ItemEditModal({
                     type="submit"
                     className="mt-8 cursor-pointer w-full bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700"
                   >
-                    Publish Listing
+                    Update Listing
                   </button>
                 </div>
               </div>
