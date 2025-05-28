@@ -2,16 +2,30 @@
 
 import { useGetAllProductsQuery } from "@/redux/features/Item/itemApi";
 import { useState } from "react";
-import { FiLoader, FiSearch } from "react-icons/fi";
+import { FiLoader, FiSearch, FiFilter, FiX } from "react-icons/fi";
 import { getTrackBackground, Range } from "react-range";
 import ItemCard from "./ItemCard";
 import { TProduct } from "@/types";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Define the type for query parameters
 export type TQueryParam = {
   name: string;
   value: boolean | React.Key;
 };
+
+// Skeleton Loading Component
+const ProductSkeleton = () => (
+  <div className="bg-white rounded-2xl shadow-sm overflow-hidden animate-pulse">
+    <div className="h-[400px] bg-gray-200"></div>
+    <div className="p-6 space-y-4">
+      <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+      <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+      <div className="h-10 bg-gray-200 rounded"></div>
+    </div>
+  </div>
+);
 
 const FilterSection = ({
   title,
@@ -20,12 +34,16 @@ const FilterSection = ({
   title: string;
   children: React.ReactNode;
 }) => (
-  <div className="mb-6 border bg-white rounded-md border-gray-300 p-3 md:p-5">
-    <h2 className="text-lg font-semibold pb-3 border-b border-gray-300 text-gray-800 mb-4">
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="mb-6 bg-white rounded-xl border border-gray-100 p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow"
+  >
+    <h2 className="text-lg font-semibold pb-3 border-b border-gray-100 text-gray-800 mb-4">
       {title}
     </h2>
     {children}
-  </div>
+  </motion.div>
 );
 
 export default function ProductPages() {
@@ -96,89 +114,90 @@ export default function ProductPages() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Search Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-700 py-40 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 py-24 relative overflow-hidden">
         {/* Animated Background Shapes */}
         <div className="absolute inset-0">
-          <div className="absolute -top-20 -left-20 w-64 h-64 bg-purple-400 rounded-full opacity-20 animate-blob"></div>
-          <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-blue-400 rounded-full opacity-20 animate-blob animation-delay-2000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-purple-500 rounded-full opacity-15 animate-blob animation-delay-4000"></div>
+          <div className="absolute -top-20 -left-20 w-64 h-64 bg-blue-400 rounded-full opacity-20 animate-blob"></div>
+          <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-indigo-400 rounded-full opacity-20 animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-500 rounded-full opacity-15 animate-blob animation-delay-4000"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 mt-20 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto text-center"
+          >
             {/* Title */}
-            <h1 className="text-2xl md:text-5xl font-bold text-white mb-2 md:mb-6 animate-fade-in-down">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6">
               Discover Pre-Loved Treasures
             </h1>
 
             {/* Subtitle */}
-            <p className="md:text-lg text-base text-purple-100 mb-8 animate-fade-in-down animation-delay-200">
+            <p className="text-xl text-blue-100 mb-8">
               Find unique, sustainable, and affordable items just for you.
             </p>
 
             {/* Search Bar */}
-            <div className="flex justify-center rounded-lg shadow-xl   border border-blue-500 items-center animate-fade-in-up animation-delay-400">
-              <button className=" rounded-l-lg   text-white p-4   bg-blue-700  ">
-                <FiSearch className="w-6 h-6" />
+            <div className="flex justify-center rounded-xl shadow-lg border border-blue-500/30 items-center bg-white/10 backdrop-blur-sm max-w-2xl mx-auto">
+              <button className="rounded-l-xl text-white p-4 bg-blue-700/50 hover:bg-blue-700 transition-colors">
+                <FiSearch className="w-5 h-5" />
               </button>
               <input
                 type="text"
                 placeholder="Search anything for items..."
-                className="w-full px-4 py-4 text-white focus:outline-none   transition-all duration-300"
+                className="w-full px-4 py-4 text-white placeholder-blue-200 focus:outline-none bg-transparent transition-all duration-300"
                 onChange={handleSearch}
               />
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 py-12">
         <div className="flex flex-col md:flex-row gap-8">
-          <div
-            className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-all duration-500 z-999 ${
-              openSidebar ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-            onClick={() => setOpenSidebar(false)}
-          ></div>
+          <AnimatePresence>
+            {openSidebar && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-all duration-500 z-50"
+                onClick={() => setOpenSidebar(false)}
+              />
+            )}
+          </AnimatePresence>
+
           {/* Filters Sidebar */}
-          <div
-            className={`md:w-[23%] w-[73%] lg:relative fixed border-r md:-mt-5 border-gray-300 md:border-none top-0 left-0 h-full bg-white md:bg-none  md:rounded-lg md:z-10 z-999 transition-transform duration-500 ease-in-out overflow-y-auto px-3 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ${
+          <motion.div
+            initial={{ x: -300, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className={`md:w-[20%] w-[85%] lg:relative fixed border-r md:-mt-5 border-gray-200 md:border-none top-0 left-0 h-full bg-white md:bg-none md:rounded-xl md:z-10 z-50 transition-transform duration-500 ease-in-out overflow-y-auto px-3 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ${
               openSidebar ? "translate-x-0" : "-translate-x-full"
             } lg:translate-x-0`}
           >
-            <div className="flex justify-end  px-3 pt-4  mb-3">
+            <div className="flex justify-end px-3 pt-4 mb-3">
               <button
                 onClick={() => setOpenSidebar(false)}
-                id="close-sidebar"
-                className="ml-auto flex gap-1  flex-row-reverse  md:hidden cup cursor-pointer"
+                className="ml-auto flex gap-1 flex-row-reverse md:hidden items-center text-gray-600 hover:text-gray-900 transition-colors"
               >
-                <svg
-                  onClick={() => setOpenSidebar(false)}
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-5 h-5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M6 18L18 6M6 6l12 12"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <p className="text-sm -translate-y-[1px]">Hide Filter</p>
+                <FiX className="w-5 h-5" />
+                <span className="text-sm">Hide Filter</span>
               </button>
             </div>
+
             {/* Category Filter */}
             <FilterSection title="Category">
               <ul className="space-y-2">
                 {categories.map((category) => (
-                  <li
+                  <motion.li
                     key={category}
+                    whileHover={{ x: 5 }}
                     onClick={() => handleCategoryFilter(category)}
                     className={`text-base text-gray-700 hover:text-blue-600 transition cursor-pointer ${
                       params?.find((param) => param.value === category)
@@ -187,14 +206,14 @@ export default function ProductPages() {
                     }`}
                   >
                     {category}
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </FilterSection>
 
             {/* Price Range Filter */}
             <FilterSection title="Filter by Price">
-              <div className="flex items-center justify-center py-5 rounded-lg bg-gray-100">
+              <div className="flex items-center justify-center py-5 rounded-lg bg-gray-50">
                 <div className="w-4/5">
                   <div className="flex text-sm justify-between mb-2">
                     <span className="text-gray-700">Min</span>
@@ -225,30 +244,27 @@ export default function ProductPages() {
                       </div>
                     )}
                     renderThumb={({ props: thumbProps, index }) => {
-                      // Extract `key` from thumbProps and spread the remaining props
                       const { key, ...restThumbProps } = thumbProps;
                       return (
                         <div
-                          key={key} // Set key directly
-                          {...restThumbProps} // Spread other props without key
+                          key={key}
+                          {...restThumbProps}
                           style={{
                             ...restThumbProps.style,
                             height: "15px",
                             width: "15px",
                             background: "#155dfc",
                           }}
-                          className="rounded-md cursor-pointer"
+                          className="rounded-md cursor-pointer shadow-lg hover:shadow-xl transition-shadow"
                         />
                       );
                     }}
                   />
                   <div className="flex text-sm justify-between mt-4">
                     <span className="text-gray-700">
-                      Price Range :
-                      <span className="font-semibold">
-                        <span className="">$</span>
-                        {values[0]} - <span className="">$</span>
-                        {values[1]}{" "}
+                      Price Range:
+                      <span className="font-semibold ml-1">
+                        ${values[0]} - ${values[1]}
                       </span>
                     </span>
                   </div>
@@ -260,8 +276,9 @@ export default function ProductPages() {
             <FilterSection title="Condition">
               <ul className="space-y-2">
                 {conditions.map((condition) => (
-                  <li
+                  <motion.li
                     key={condition}
+                    whileHover={{ x: 5 }}
                     onClick={() => handleConditionFilter(condition)}
                     className={`text-base text-gray-700 hover:text-blue-600 transition cursor-pointer ${
                       params?.find((param) => param.value === condition)
@@ -270,51 +287,52 @@ export default function ProductPages() {
                     }`}
                   >
                     {condition}
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </FilterSection>
+          </motion.div>
+
+          {/* Mobile Filter Button */}
+          <div className="flex justify-start md:hidden -my-7 w-[95%] mx-auto">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setOpenSidebar(!openSidebar)}
+              className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+            >
+              <FiFilter className="w-4 h-4 text-gray-600" />
+              <span className="text-sm font-medium text-gray-700">Filter Items</span>
+            </motion.button>
           </div>
 
-          <div className="flex justify-start md:hidden   -my-7 w-[95%] mx-auto ">
-            <div
-              onClick={() => setOpenSidebar(!openSidebar)}
-              className="flex mb-2 items-center w-[40%]  gap-x-2"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-3 h-3 fill-gray-800"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M.13 17.05a1.41 1.41 0 0 1 1.41-1.41H10a1.41 1.41 0 1 1 0 2.82H1.54a1.41 1.41 0 0 1-1.41-1.41zm0-14.1a1.41 1.41 0 0 1 1.41-1.41h16.92a1.41 1.41 0 1 1 0 2.82H1.54A1.41 1.41 0 0 1 .13 2.95zm0 7.05a1.41 1.41 0 0 1 1.41-1.41h16.92a1.41 1.41 0 1 1 0 2.82H1.54A1.41 1.41 0 0 1 .13 10z"
-                  clipRule="evenodd"
-                  data-original="#000000"
-                ></path>
-              </svg>
-              <p>Filter Items</p>
-            </div>
-          </div>
           {/* Product Grid */}
-          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4">
             {isLoading ? (
-              <div className="flex justify-center ">
-                <div  className="flex mt-5 ml-5  justify-evenly ">
-                  <FiLoader className="w-8 h-8 animate-spin text-blue-600" />
-                  <span className="ml-2 text-lg text-gray-600">
-                    Loading Items.....
-                  </span>
-                </div>
-              </div>
+              Array(8).fill(0).map((_, index) => (
+                <ProductSkeleton key={index} />
+              ))
             ) : items?.data?.length > 0 ? (
               items.data.map((item: TProduct) => (
-                <ItemCard key={item._id} item={item} />
+                <motion.div
+                  key={item._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <ItemCard item={item} />
+                </motion.div>
               ))
             ) : (
-              <p className="text-center col-span-full text-gray-600">
-                No items found
-              </p>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="col-span-full text-center py-12"
+              >
+                <p className="text-gray-600 text-lg">
+                  No items found matching your criteria
+                </p>
+              </motion.div>
             )}
           </div>
         </div>

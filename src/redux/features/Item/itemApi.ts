@@ -28,6 +28,7 @@ const productApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+      
       providesTags: ["item"],
       // transformResponse: (response: TResponseRedux<TSemester[]>) => {
       //   return {

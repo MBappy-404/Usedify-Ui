@@ -3,10 +3,22 @@ import { useGetAllProductsQuery } from "@/redux/features/Item/itemApi";
 import { TProduct } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { FaLocationDot } from "react-icons/fa6";
+import { FaLocationDot, FaStar, FaArrowRight } from "react-icons/fa6";
+import { FaSearch, FaShoppingCart, FaUser, FaHeart, FaShieldAlt, FaLeaf, FaRecycle, FaHandshake, FaUsers, FaChartLine } from "react-icons/fa";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const OthersPage = () => {
   const { data, isLoading, isError } = useGetAllProductsQuery(undefined);
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   const testimonials = [
     {
       id: 1,
@@ -15,6 +27,8 @@ const OthersPage = () => {
       feedback:
         "I love shopping on UseDify! The quality of the products is amazing, and the prices are unbeatable. Highly recommended!",
       image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400",
+      rating: 5,
+      location: "New York, USA",
     },
     {
       id: 2,
@@ -23,6 +37,8 @@ const OthersPage = () => {
       feedback:
         "Selling on UseDify was so easy! I listed my old furniture, and it sold within a day. Great platform for both buyers and sellers.",
       image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400",
+      rating: 5,
+      location: "London, UK",
     },
     {
       id: 3,
@@ -31,238 +47,314 @@ const OthersPage = () => {
       feedback:
         "UseDify is my go-to platform for sustainable shopping. I love giving used items a new life while saving money!",
       image: "https://images.pexels.com/photos/712521/pexels-photo-712521.jpeg?auto=compress&cs=tinysrgb&w=400",
+      rating: 5,
+      location: "Sydney, Australia",
     },
   ];
+
+  const features = [
+    {
+      icon: <FaShieldAlt className="w-8 h-8" />,
+      title: "Secure Transactions",
+      description: "Enjoy peace of mind with our secure payment system and buyer protection.",
+      color: "from-blue-500 to-indigo-500",
+      stats: "99.9% Secure",
+    },
+    {
+      icon: <FaLeaf className="w-8 h-8" />,
+      title: "Eco-Friendly",
+      description: "Join our mission to reduce waste and promote sustainable consumption.",
+      color: "from-green-500 to-emerald-500",
+      stats: "10k+ Items Recycled",
+    },
+    {
+      icon: <FaRecycle className="w-8 h-8" />,
+      title: "Easy Selling",
+      description: "List your items in minutes with our streamlined selling process.",
+      color: "from-purple-500 to-pink-500",
+      stats: "5min Setup",
+    },
+  ];
+
+  const categories = [
+    { name: "Electronics", icon: "📱", count: "1.2k+", color: "from-blue-400 to-blue-600" },
+    { name: "Furniture", icon: "🪑", count: "800+", color: "from-green-400 to-green-600" },
+    { name: "Books", icon: "📚", count: "2.5k+", color: "from-purple-400 to-purple-600" },
+    { name: "Fashion", icon: "👗", count: "3.1k+", color: "from-pink-400 to-pink-600" },
+  ];
+
+  const stats = [
+    { number: "50k+", label: "Active Users", icon: <FaUsers className="w-6 h-6" /> },
+    { number: "100k+", label: "Items Listed", icon: <FaChartLine className="w-6 h-6" /> },
+    { number: "95%", label: "Satisfaction", icon: <FaHandshake className="w-6 h-6" /> },
+  ];
+
   return (
-    <div className="bg-gray-50">
-      {/* Featured Products Section */}
-      <section className=" bg-white">
-        {isLoading && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
-              Featured Products
-            </h2>
-            <div className="flex justify-center items-center h-40">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
-            </div>
-          </div>
-        )}
-
-        <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
-              Featured Products
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {data?.data?.slice(0,3)?.map((item: TProduct) => (
-                <div
-                  key={item?._id}
-                  className="bg-white h-[450px] rounded-xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden flex flex-col"
-                >
-                  <div className="relative flex-shrink-0">
-                    <img
-                      src={item.image}
-                      alt="Product"
-                      className="w-full h-56 object-cover rounded-t-xl transition-transform duration-300"
-                    />
-                  </div>
-                  {/* Content Section */}
-                  <div className="p-4 flex flex-col flex-grow">
-                    {/* Product Name */}
-                    <h3 className="font-semibold text-xl text-gray-800 mb-2">
-                      {item?.name}
-                    </h3>
-
-                    {/* Price and Condition */}
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-blue-600 font-bold text-lg">
-                        ${item?.price}
-                      </span>
-                      <span className="text-sm bg-green-100 text-green-800 px-2.5 py-1 rounded-full font-medium">
-                        {item?.condition}
-                      </span>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-gray-600 text-sm mb-4 flex-grow">
-                      {item?.description?.slice(0, 120)}...
-                    </p>
-
-                    {/* Location */}
-                    <div className="flex items-center text-sm text-gray-500 mb-4">
-                      <FaLocationDot className="w-5 h-5 mr-1.5 text-gray-400" />
-                      <span>{item?.location}</span>
-                    </div>
-
-                    {/* View Details Button */}
-                    {/* <button
-                            onClick={() => setIsModalOpen(true)}
-                            className="w-full cursor-pointer bg-blue-600 text-white py-2.5 rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center"
-                          >
-                            View Details
-                            <svg
-                              className="w-4 h-4 ml-2"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M9 5l7 7-7 7"
-                              />
-                            </svg>
-                          </button> */}
-                  </div>
-                </div>
-              ))}
-            </div>
-           <div className="flex  justify-center pt-14"> 
-           <Link href={"/products"}>
-            <button className="px-8 py-2 text-lg  rounded-full cursor-pointer bg-blue-600 text-white">View All</button>
-            </Link>
-           </div>
-          </div>
-        </section>
-      </section>
-
-      {/* Why Choose Us? Section */}
-      <section className="py-20 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
-            Why Choose Us?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: "🚀",
-                title: "Fast & Secure",
-                description:
-                  "Enjoy fast and secure transactions with our trusted platform.",
-              },
-              {
-                icon: "🌍",
-                title: "Eco-Friendly",
-                description:
-                  "Give used items a new life and contribute to a greener planet.",
-              },
-              {
-                icon: "💼",
-                title: "Easy Selling",
-                description:
-                  "Sell your items quickly and easily with our user-friendly tools.",
-              },
-            ].map((feature, index) => (
-              <div
+    <div className="bg-gray-50" ref={containerRef}>
+      {/* Stats Section */}
+      <section className="py-24 bg-white">
+        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {stats.map((stat, index) => (
+              <motion.div
                 key={index}
-                className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="text-center p-10 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all duration-300 cursor-pointer"
               >
-                <span className="text-4xl mb-4 inline-block">
-                  {feature.icon}
-                </span>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </div>
+                <div className="inline-block p-5 rounded-full bg-blue-100 text-blue-600 mb-6">
+                  {stat.icon}
+                </div>
+                <h3 className="text-5xl font-bold text-gray-900 mb-3">{stat.number}</h3>
+                <p className="text-lg text-gray-600">{stat.label}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Featured Products Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Featured Products
+            </h2>
+            <p className="text-xl text-gray-600">
+              Discover our handpicked selection of quality items
+            </p>
+          </div>
+
+          {isLoading ? (
+            <div className="flex justify-center items-center h-40">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {data?.data?.slice(0, 4)?.map((item: TProduct, index: number) => (
+                  <motion.div
+                    key={item?._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer"
+                  >
+                    <div className="relative h-80 overflow-hidden">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        className="object-cover transform group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute top-4 right-4">
+                        <span className="px-4 py-2 bg-white/90 backdrop-blur-sm text-green-800 rounded-full text-sm font-medium shadow-sm">
+                          {item.condition}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-8">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1">
+                          <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+                            {item.name}
+                          </h3>
+                          <div className="flex items-center text-base text-gray-500 mt-2">
+                            <FaLocationDot className="w-5 h-5 mr-2 text-gray-400" />
+                            <span className="line-clamp-1">{item.location}</span>
+                          </div>
+                        </div>
+                        <div className="ml-4 text-right">
+                          <span className="text-2xl font-bold text-blue-600">
+                            ${item.price}
+                          </span>
+                        </div>
+                      </div>
+
+                      <p className="text-gray-600 text-base mb-8 line-clamp-2">
+                        {item.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="text-center mt-12">
+                <Link href="/products">
+                  <button className="px-8 cursor-pointer py-4 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 text-lg rounded-lg mx-auto">
+                    View All Products
+                    <FaArrowRight className="w-5 h-5" />
+                  </button>
+                </Link>
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+
       {/* Categories Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
-            Explore Categories
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {[
-              { name: "Electronics", icon: "📱" },
-              { name: "Furniture", icon: "🪑" },
-              { name: "Books", icon: "📚" },
-              { name: "Fashion", icon: "👗" },
-            ].map((category, index) => (
-              <Link key={index} href={"/products"}>
-                <div className="bg-gray-100 cursor-pointer p-6 rounded-lg text-center hover:bg-indigo-50 transition-colors">
-                  <span className="text-4xl mb-4 inline-block">
-                    {category.icon}
-                  </span>
-                  <h3 className="text-xl font-semibold text-gray-900">
-                    {category.name}
-                  </h3>
+      <section className="py-24 bg-white">
+        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Browse Categories
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Explore our wide range of categories to find exactly what you're looking for
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {categories.map((category, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Link href="/products">
+                  <div className="group relative overflow-hidden rounded-xl bg-gray-50 p-10 text-center hover:bg-gray-100 transition-all duration-300 cursor-pointer">
+                    <span className="text-5xl mb-6 inline-block transform group-hover:scale-110 transition-transform">
+                      {category.icon}
+                    </span>
+                    <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+                      {category.name}
+                    </h3>
+                    <p className="text-lg text-gray-500">{category.count} items</p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Why Choose Us?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Experience the best in sustainable shopping with our unique features
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white p-10 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
+              >
+                <div className="text-blue-600 mb-6">
+                  {feature.icon}
                 </div>
-              </Link>
+                <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+                  {feature.title}
+                </h3>
+                <p className="text-lg text-gray-600 mb-6">{feature.description}</p>
+                <p className="text-base font-medium text-blue-600">{feature.stats}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
-          What Our Customers Say
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial) => (
-            <div
-              key={testimonial.id}
-              className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
-            >
-              <p className="text-gray-600 italic">
-                "{testimonial.feedback}"
-              </p>
-              <div className="mt-4 flex items-center">
-                <Image
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  width={40}
-                  height={40}
-                  className="rounded-full w-10 h-10 object-cover border border-gray-200" 
-                />
-                <div className="ml-3">
-                  <h4 className="font-semibold text-gray-900">
-                    {testimonial.name}
-                  </h4>
-                  <p className="text-sm text-gray-500">{testimonial.role}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+      <section className="py-24 bg-white">
+        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Customer Reviews
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              See what our customers have to say about their shopping experience
+            </p>
+          </div>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-indigo-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            Ready to Get Started?
-          </h2>
-          <p className="text-lg text-indigo-100 mb-8">
-            Join thousands of users who are giving used items a new life.
-          </p>
-          <div className="space-x-4">
-            <Link
-              href="/products"
-              className="px-6 py-3 bg-white text-indigo-600 rounded-lg font-semibold hover:bg-indigo-50 transition-colors"
-            >
-              Explore Products
-            </Link>
-            <Link
-              href="/dashboard/manage-items"
-              className="px-6 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition-colors"
-            >
-              Start Selling
-            </Link>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={testimonial.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-gray-50 p-10 rounded-xl hover:bg-gray-100 transition-all duration-300 cursor-pointer"
+              >
+                <div className="flex items-center mb-6">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <FaStar key={i} className="w-6 h-6 text-yellow-400" />
+                  ))}
+                </div>
+                <p className="text-lg text-gray-600 italic mb-8">
+                  "{testimonial.feedback}"
+                </p>
+                <div className="flex items-center">
+                  <div className="relative w-14 h-14 rounded-full overflow-hidden">
+                    <Image
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="text-xl font-semibold text-gray-900">
+                      {testimonial.name}
+                    </h4>
+                    <p className="text-base text-gray-500">{testimonial.role}</p>
+                    <p className="text-base text-gray-400">{testimonial.location}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-     
+      {/* CTA Section */}
+      <section className="py-24 bg-gradient-to-r from-blue-600 to-indigo-600">
+        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Ready to Get Started?
+            </h2>
+            <p className="text-xl text-blue-100 mb-10 max-w-3xl mx-auto">
+              Join thousands of users who are giving used items a new life while saving money and helping the environment.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link href="/products">
+                <button className="w-full sm:w-auto px-10 py-5 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300 flex items-center justify-center gap-3 text-lg cursor-pointer">
+                  Start Shopping
+                  <FaArrowRight className="w-5 h-5" />
+                </button>
+              </Link>
+              <Link href="/dashboard/manage-items">
+                <button className="w-full sm:w-auto px-10 py-5 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300 text-lg cursor-pointer">
+                  Start Selling
+                </button>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 };
