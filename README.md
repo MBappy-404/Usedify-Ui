@@ -25,7 +25,6 @@ Usedify is a modern, user-friendly marketplace platform designed for buying and 
 
 ### 🎯 Platform Features
 - **Responsive Design**: Perfect experience on all devices
-- **Real-time Chat**: Direct communication between buyers and sellers
 - **User Authentication**: Secure login and registration
 - **Profile Management**: Customize your user profile
 
@@ -33,7 +32,6 @@ Usedify is a modern, user-friendly marketplace platform designed for buying and 
 
 - **Frontend**: Next.js 13, React, Tailwind CSS
 - **State Management**: Redux Toolkit
-- **Authentication**: NextAuth.js
 - **Database**: MongoDB
 - **Styling**: Tailwind CSS, Custom Components
 - **Icons**: React Icons (Feather Icons)
@@ -107,23 +105,10 @@ Usedify is fully responsive and optimized for:
 - Code splitting
 - Caching strategies
 
-## 🤝 Contributing
-
-We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
+ 
 ## 🌐 Live Demo
 
 Visit our live site: [Usedify](https://usedify.vercel.app/)
-
-## 📞 Contact
-
-- **Website**: [https://usedify.vercel.app/](https://usedify.vercel.app/)
-- **Email**: support@usedify.com
-- **Twitter**: [@UsedifyApp](https://twitter.com/UsedifyApp)
 
 ## 🙏 Acknowledgments
 
@@ -131,6 +116,3 @@ Visit our live site: [Usedify](https://usedify.vercel.app/)
 - Tailwind CSS for the utility-first CSS framework
 - All contributors who have helped shape Usedify
 
----
-
-Made with ❤️ by the Usedify Team
