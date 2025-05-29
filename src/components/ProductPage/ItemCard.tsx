@@ -42,7 +42,7 @@ const ItemCard = ({ item }: { item: TProduct }) => {
 
   return (
     <div className="block w-full">
-      <motion.div 
+      <motion.div
         className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 relative group w-full"
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
@@ -56,7 +56,7 @@ const ItemCard = ({ item }: { item: TProduct }) => {
             fill
             className="object-cover"
           />
-          
+
           {/* Price Tag */}
           <div className="absolute bottom-2 left-2">
             <span className="px-3 py-1.5 bg-white text-base font-bold text-blue-600 rounded-full shadow-sm">
@@ -67,7 +67,7 @@ const ItemCard = ({ item }: { item: TProduct }) => {
           {/* Hover Actions */}
           <AnimatePresence>
             {isHovered && (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -79,15 +79,14 @@ const ItemCard = ({ item }: { item: TProduct }) => {
                   onClick={handleWishlistToggle}
                   className="p-2.5 bg-white rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer"
                 >
-                  <FaHeart 
-                    className={`w-4 h-4 transition-colors duration-300 ${
-                      isFavorite 
-                        ? "text-red-500" 
+                  <FaHeart
+                    className={`w-4 h-4 transition-colors duration-300 ${isFavorite
+                        ? "text-red-500"
                         : "text-gray-600 hover:text-red-400"
-                    }`} 
+                      }`}
                   />
                 </motion.button>
-                <Link href={`/products/${item._id}`}>
+                <Link href={`/products/${item._id}`} onClick={(e) => e.stopPropagation()}>
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}

@@ -3,7 +3,7 @@ import OthersPage from "@/components/HomePage/Others/OthersPage";
 
 export default function Home() {
   return (
-    <div>
+    <div >
       <AnimatedBanner/>
       <OthersPage/>
     </div>

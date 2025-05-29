@@ -5,18 +5,18 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About Section */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold text-white">UseDify</span>
+              <span className="text-2xl md:text-3xl font-bold text-white">UseDify</span>
             </Link>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm md:text-base text-gray-400">
               UseDify is your go-to platform for buying and selling used items.
               Give used items a new life and contribute to a sustainable future.
             </p>
             <div className="flex space-x-4">
-              {/* Facebook SVG Icon */}
+              {/* Social Icons */}
               <Link
                 href="https://facebook.com"
                 target="_blank"
@@ -34,7 +34,6 @@ const Footer = () => {
                 </svg>
               </Link>
 
-              {/* Twitter SVG Icon */}
               <Link
                 href="https://twitter.com"
                 target="_blank"
@@ -52,7 +51,6 @@ const Footer = () => {
                 </svg>
               </Link>
 
-              {/* Instagram SVG Icon */}
               <Link
                 href="https://instagram.com"
                 target="_blank"
@@ -70,7 +68,6 @@ const Footer = () => {
                 </svg>
               </Link>
 
-              {/* LinkedIn SVG Icon */}
               <Link
                 href="https://linkedin.com"
                 target="_blank"
@@ -92,12 +89,12 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Quick Links</h3>
+            <h3 className="text-base md:text-lg font-semibold">Quick Links</h3>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="/about"
-                  className="text-sm text-gray-400 hover:text-white transition-colors"
+                  className="text-sm md:text-base text-gray-400 hover:text-white transition-colors"
                 >
                   About Us
                 </Link>
@@ -105,25 +102,72 @@ const Footer = () => {
               <li>
                 <Link
                   href="/contact"
-                  className="text-sm text-gray-400 hover:text-white transition-colors"
+                  className="text-sm md:text-base text-gray-400 hover:text-white transition-colors"
                 >
                   Contact Us
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/"
-                  className="text-sm text-gray-400 hover:text-white transition-colors"
+                  href="/products"
+                  className="text-sm md:text-base text-gray-400 hover:text-white transition-colors"
                 >
-                  Privacy Policy
+                  Browse Products
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/"
-                  className="text-sm text-gray-400 hover:text-white transition-colors"
+                  href="/dashboard/manage-items"
+                  className="text-sm md:text-base text-gray-400 hover:text-white transition-colors"
                 >
-                  Terms of Service
+                  Sell Your Items
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/wishlist"
+                  className="text-sm md:text-base text-gray-400 hover:text-white transition-colors"
+                >
+                  Wishlist
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Premium Section */}
+          <div className="space-y-4">
+            <h3 className="text-base md:text-lg font-semibold">Premium Features</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  href="/premium"
+                  className="text-sm md:text-base text-gray-400 hover:text-white transition-colors"
+                >
+                  Premium Membership
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/premium/benefits"
+                  className="text-sm md:text-base text-gray-400 hover:text-white transition-colors"
+                >
+                  Premium Benefits
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/premium/pricing"
+                  className="text-sm md:text-base text-gray-400 hover:text-white transition-colors"
+                >
+                  Pricing Plans
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/premium/compare"
+                  className="text-sm md:text-base text-gray-400 hover:text-white transition-colors"
+                >
+                  Compare Plans
                 </Link>
               </li>
             </ul>
@@ -131,29 +175,31 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Contact Us</h3>
+            <h3 className="text-base md:text-lg font-semibold">Contact Us</h3>
             <ul className="space-y-2">
-              <li className="text-sm text-gray-400">
+              <li className="text-sm md:text-base text-gray-400">
                 <span className="font-medium">Email:</span>{" "}
                 <Link
-                  href="mailto:support@usedify.com"
+                  href="mailto:contact@usedify.com"
                   className="hover:text-white transition-colors"
                 >
-                  support@usedify.com
+                  contact@usedify.com
                 </Link>
               </li>
-              <li className="text-sm text-gray-400">
+              <li className="text-sm md:text-base text-gray-400">
                 <span className="font-medium">Phone:</span>{" "}
                 <Link
-                  href="tel:+1234567890"
+                  href="tel:01323445568"
                   className="hover:text-white transition-colors"
                 >
-                  +1 (234) 567-890
+                  01323445568
                 </Link>
               </li>
-              <li className="text-sm text-gray-400">
-                <span className="font-medium">Address:</span> 123 Green St,
-                EcoCity, Earth
+              <li className="text-sm md:text-base text-gray-400">
+                <span className="font-medium">Address:</span> Rajshahi, Bangladesh
+              </li>
+              <li className="text-sm md:text-base text-gray-400">
+                <span className="font-medium">Hours:</span> Mon-Fri, 9AM-6PM
               </li>
             </ul>
           </div>
@@ -161,7 +207,7 @@ const Footer = () => {
 
         {/* Divider */}
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p className="text-sm text-gray-400">
+          <p className="text-sm md:text-base text-gray-400">
             &copy; {new Date().getFullYear()} UseDify. All rights reserved.
           </p>
         </div>

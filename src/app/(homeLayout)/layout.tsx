@@ -7,9 +7,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      {children}
+      <main className="flex-grow pt-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[90rem] mx-auto">
+          {children}
+        </div>
+      </main>
       <Footer />
     </div>
   );

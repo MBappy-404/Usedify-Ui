@@ -11,7 +11,7 @@ const AnimatedBanner = () => {
   }, []);
 
   return (
-    <div className="relative h-[95vh] overflow-hidden bg-gray-900">
+    <div className="relative h-[95vh]  overflow-hidden bg-gray-900">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <Image
@@ -26,8 +26,8 @@ const AnimatedBanner = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 h-full flex items-center">
-        <div className="w-full max-w-[90vw] mx-auto px-4">
+      <div className="relative z-10 h-full flex items-center pt-20">
+        <div className="max-w-[90rem] w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left Column - Main Content */}
             <div className="text-left space-y-8">

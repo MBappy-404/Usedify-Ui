@@ -50,7 +50,7 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center py-36">
-      <div className="max-w-5xl w-full mx-auto px-4">
+      <div className="max-w-7xl w-full mx-auto px-4">
         <div className="bg-white rounded-[2rem] shadow-[0_20px_70px_-10px_rgba(0,0,0,0.1)] overflow-hidden">
           <div className="grid lg:grid-cols-2">
             {/* Contact Form */}
@@ -63,7 +63,7 @@ export default function Contact() {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-5 py-4 bg-gray-50 rounded-xl border-0 focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all duration-300 text-gray-700 placeholder-gray-400"
+                    className="w-full px-5 py-4 bg-white rounded-xl focus:outline-none border border-gray-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-gray-700 placeholder-gray-400"
                     placeholder="Your name"
                     required
                   />
@@ -75,7 +75,7 @@ export default function Contact() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-5 py-4 bg-gray-50 rounded-xl border-0 focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all duration-300 text-gray-700 placeholder-gray-400"
+                    className="w-full px-5 py-4 bg-white focus:outline-none rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-gray-700 placeholder-gray-400"
                     placeholder="Your email"
                     required
                   />
@@ -87,7 +87,7 @@ export default function Contact() {
                     value={formData.message}
                     onChange={handleChange}
                     rows={4}
-                    className="w-full px-5 py-4 bg-gray-50 rounded-xl border-0 focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all duration-300 text-gray-700 placeholder-gray-400 resize-none"
+                    className="w-full px-5 py-4 bg-white focus:outline-none rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-gray-700 placeholder-gray-400 resize-none"
                     placeholder="Your message"
                     required
                   />
@@ -95,7 +95,7 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-4 rounded-xl font-medium hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30"
+                  className="w-full bg-blue-600 text-white py-4 cursor-pointer rounded-xl font-medium hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30"
                 >
                   Send Message
                 </button>
@@ -118,7 +118,7 @@ export default function Contact() {
                       </div>
                       <div>
                         <p className="text-sm text-blue-100">Phone</p>
-                        <p className="font-medium">+44 020 1234 5678</p>
+                        <p className="font-medium">01323445568</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
