@@ -7,12 +7,12 @@ import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import DeleteConfirmationModal from "@/components/DeleteConformModal";
 import { useDeleteProductMutation } from "@/redux/features/Item/itemApi";
 import { toast } from "sonner";
-import { FiLoader } from "react-icons/fi"; // Import loading spinner icon
+import { FiLoader } from "react-icons/fi";
 
 type ProductListProps = {
   products: TProduct[];
-  isLoading?: boolean; // Add isLoading prop
-  isError?: boolean; // Add isError prop
+  isLoading?: boolean;
+  isError?: boolean;
 };
 
 const ProductItem = ({
@@ -45,164 +45,255 @@ const ProductItem = ({
     }
   };
 
+  // Loading State Component
+  const LoadingState = () => (
+    <div className="flex justify-center items-center py-10">
+      <FiLoader className="w-6 h-6 animate-spin text-blue-600" />
+      <span className="ml-2 text-gray-600">Loading products...</span>
+    </div>
+  );
+
+  // Error State Component
+  const ErrorState = () => (
+    <div className="text-center py-10 text-red-600">
+      Failed to load products. Please try again later.
+    </div>
+  );
+
+  // Empty State Component
+  const EmptyState = () => (
+    <div className="flex flex-col items-center justify-center py-10">
+      <FaBoxOpen className="w-16 h-16 text-gray-400 mb-4" />
+      <p className="text-gray-500 text-lg">No products available</p>
+    </div>
+  );
+
+  // Mobile Card View
+  const MobileCard = ({ product }: { product: TProduct }) => (
+    <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+      <div className="p-4 space-y-3">
+        <div className="flex items-center gap-3">
+          <img
+            src={product.image || "https://via.placeholder.com/300"}
+            alt={product.name}
+            className="w-12 h-12 rounded-lg object-cover"
+          />
+          <div className="flex-1 min-w-0">
+            <h3 className="text-sm font-medium text-gray-900 truncate">
+              {product.name}
+            </h3>
+            <p className="text-sm text-gray-500">{product.category}</p>
+          </div>
+          <span
+            className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+              product.status === "sold"
+                ? "bg-red-100 text-red-800"
+                : "bg-green-100 text-green-800"
+            }`}
+          >
+            {product.status === "sold" ? "Sold Out" : "Available"}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 text-sm">
+          <div className="flex items-center gap-2">
+            <span className="text-gray-500">Price:</span>
+            <span className="font-medium">${product.price.toLocaleString()}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-gray-500">Condition:</span>
+            <span className="font-medium">{product.condition}</span>
+          </div>
+        </div>
+
+        {product.location && (
+          <div className="flex items-center text-sm text-gray-500">
+            <FaMapMarkerAlt className="mr-2 flex-shrink-0" />
+            <span className="truncate">{product.location}</span>
+          </div>
+        )}
+
+        <div className="flex gap-2 pt-2">
+          <button
+            onClick={() => {
+              setIsModalOpen(true);
+              setItem(product);
+            }}
+            className={`flex-1 p-2 bg-blue-100 text-blue-800 cursor-pointer  rounded-lg hover:bg-blue-200 transition-colors ${
+              user?.role === "admin" && "hidden"
+            }`}
+          >
+            <FaEdit className="w-4 h-4 mx-auto" />
+          </button>
+          <button
+            onClick={() => {
+              setIsDeleteModalOpen(true);
+              setItemToDelete(product._id);
+            }}
+            className="flex-1 p-2 bg-red-100 text-red-800 cursor-pointer rounded-lg hover:bg-red-200 transition-colors"
+          >
+            <FaTrash className="w-4 h-4 mx-auto" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div>
-      <div className="w-full border-[3px] border-gray-200 rounded-2xl overflow-x-auto">
-        <table className="min-w-full bg-white rounded-lg shadow-lg overflow-hidden">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-600 uppercase tracking-wider">
-                Product
-              </th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-600 uppercase tracking-wider">
-                Category
-              </th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-600 uppercase tracking-wider">
-                Price
-              </th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-600 uppercase tracking-wider">
-                Condition
-              </th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-600 uppercase tracking-wider">
-                Location
-              </th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-600 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-600 uppercase tracking-wider">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {/* Loading State */}
-            {isLoading && (
-              <tr>
-                <td colSpan={7} className="text-center py-10">
-                  <div className="flex justify-center items-center">
-                    <FiLoader className="w-6 h-6 animate-spin text-blue-600" />
-                    <span className="ml-2 text-gray-600">Loading products...</span>
-                  </div>
-                </td>
-              </tr>
-            )}
+      {/* Mobile View */}
+      <div className="lg:hidden space-y-4">
+        {isLoading && <LoadingState />}
+        {isError && <ErrorState />}
+        {!isLoading && !isError && modifiedItems?.length === 0 && <EmptyState />}
+        {!isLoading &&
+          !isError &&
+          modifiedItems?.map((product: TProduct) => (
+            <MobileCard key={product._id} product={product} />
+          ))}
+      </div>
 
-            {/* Error State */}
-            {isError && (
-              <tr>
-                <td colSpan={7} className="text-center py-10 text-red-600">
-                  Failed to load products. Please try again later.
-                </td>
-              </tr>
-            )}
-
-            {/* Empty State */}
-            {!isLoading && !isError && modifiedItems?.length === 0 && (
-              <tr>
-                <td colSpan={7} className="text-center py-10">
-                  <div className="flex flex-col items-center justify-center">
-                    <FaBoxOpen className="w-16 h-16 text-gray-400 mb-4" />
-                    <p className="text-gray-500 text-lg">No products available</p>
-                  </div>
-                </td>
-              </tr>
-            )}
-
-            {/* Data Rows */}
-            {!isLoading &&
-              !isError &&
-              modifiedItems?.map((product: TProduct) => (
-                <tr key={product._id} className="transition-colors">
-                  {/* Product Name and Image */}
-                  <td className="px-6 py-4">
-                    <div className="flex items-center">
-                      <img
-                        src={product.image || "https://via.placeholder.com/300"}
-                        alt={product.name}
-                        className="w-10 h-10 rounded-full border border-gray-100 object-cover mr-4"
-                      />
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">
-                          {product.name?.slice(0, 10)}...
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-
-                  {/* Category */}
-                  <td className="px-6 py-4">
-                    <span className="bg-gray-200 text-gray-700 text-sm font-semibold px-2 py-1 rounded">
-                      {product.category}
-                    </span>
-                  </td>
-
-                  {/* Price */}
-                  <td className="px-6 py-4 text-sm text-gray-900">
-                    ${product.price.toLocaleString()}
-                  </td>
-
-                  {/* Condition */}
-                  <td className="px-6 py-4">
-                    <span className="bg-blue-100 text-blue-800 text-sm font-semibold px-2 py-1 rounded">
-                      {product.condition}
-                    </span>
-                  </td>
-
-                  {/* Location */}
-                  <td className="px-6 py-4">
-                    {product.location && (
-                      <div className="flex items-center text-sm text-gray-500">
-                        <FaMapMarkerAlt className="mr-2" />
-                        <span>{product.location}</span>
-                      </div>
-                    )}
-                  </td>
-
-                  {/* Status */}
-                  <td className="px-2 py-4">
-                    {product.status !== "sold" && (
-                      <button className="p-2 cursor-pointer bg-green-100 text-green-800 rounded-lg hover:bg-green-200 transition-colors flex items-center gap-2">
-                        <span className="text-sm font-medium">Available</span>
-                      </button>
-                    )}
-                    {product.status === "sold" && (
-                      <button className="p-2 cursor-pointer bg-red-100 text-red-800 rounded-lg hover:bg-red-200 transition-colors flex items-center gap-2">
-                        <span className="text-sm font-medium">Sold Out</span>
-                      </button>
-                    )}
-                  </td>
-
-                  {/* Actions */}
-                  <td className="px-6 py-4">
-                    <div className="flex items-center cursor-pointer gap-2">
-                      {/* Update Button */}
-                      <button
-                        onClick={() => {
-                          setIsModalOpen(true), setItem(product);
-                        }}
-                        className={`p-2 bg-blue-100 text-blue-800 cursor-pointer rounded-lg hover:bg-blue-200 transition-colors ${
-                          user?.role === "admin" && "hidden"
-                        }`}
-                      >
-                        <FaEdit />
-                      </button>
-
-                      {/* Delete Button */}
-                      <button
-                        onClick={() => {
-                          setIsDeleteModalOpen(true);
-                          setItemToDelete(product._id);
-                        }}
-                        className="p-2 bg-red-100 text-red-800 cursor-pointer rounded-lg hover:bg-red-200 transition-colors"
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </td>
+      {/* Desktop View */}
+      <div className="hidden lg:block">
+        <div className="w-full border border-gray-200 rounded-xl overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                    Product
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                    Category
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                    Price
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                    Condition
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                    Location
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                    Actions
+                  </th>
                 </tr>
-              ))}
-          </tbody>
-        </table>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {isLoading && (
+                  <tr>
+                    <td colSpan={7}>
+                      <LoadingState />
+                    </td>
+                  </tr>
+                )}
+
+                {isError && (
+                  <tr>
+                    <td colSpan={7}>
+                      <ErrorState />
+                    </td>
+                  </tr>
+                )}
+
+                {!isLoading && !isError && modifiedItems?.length === 0 && (
+                  <tr>
+                    <td colSpan={7}>
+                      <EmptyState />
+                    </td>
+                  </tr>
+                )}
+
+                {!isLoading &&
+                  !isError &&
+                  modifiedItems?.map((product: TProduct) => (
+                    <tr key={product._id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <img
+                            src={product.image || "https://via.placeholder.com/300"}
+                            alt={product.name}
+                            className="w-10 h-10 rounded-lg object-cover"
+                          />
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-gray-900 truncate max-w-[200px]">
+                              {product.name}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-1 rounded-full">
+                          {product.category}
+                        </span>
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${product.price.toLocaleString()}
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded-full">
+                          {product.condition}
+                        </span>
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {product.location && (
+                          <div className="flex items-center text-sm text-gray-500">
+                            <FaMapMarkerAlt className="mr-2 flex-shrink-0" />
+                            <span className="truncate max-w-[150px]">{product.location}</span>
+                          </div>
+                        )}
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                            product.status === "sold"
+                              ? "bg-red-100 text-red-800"
+                              : "bg-green-100 text-green-800"
+                          }`}
+                        >
+                          {product.status === "sold" ? "Sold Out" : "Available"}
+                        </span>
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => {
+                              setIsModalOpen(true);
+                              setItem(product);
+                            }}
+                            className={`p-2 bg-blue-100 text-blue-800 cursor-pointer rounded-lg hover:bg-blue-200 transition-colors ${
+                              user?.role === "admin" && "hidden"
+                            }`}
+                          >
+                            <FaEdit className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              setIsDeleteModalOpen(true);
+                              setItemToDelete(product._id);
+                            }}
+                            className="p-2 bg-red-100 text-red-800 cursor-pointer rounded-lg hover:bg-red-200 transition-colors"
+                          >
+                            <FaTrash className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       {/* Edit Modal */}

@@ -17,7 +17,7 @@ const DeleteConfirmationModal = ({
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+      <div className="fixed inset-0 z-999 flex items-center justify-center bg-black/70 backdrop-blur-sm">
         <div
           className="bg-white rounded-xl overflow-y-auto relative transform transition-all duration-300 ease-out scale-95 opacity-0 w-full max-w-[500px]"
           style={{
