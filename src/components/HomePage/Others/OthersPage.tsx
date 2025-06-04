@@ -119,12 +119,24 @@ const OthersPage = () => {
       <section className="py-24 bg-gray-50">
         <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+            >
               Featured Products
-            </h2>
-            <p className="text-xl text-gray-600">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="text-xl text-gray-600"
+            >
               Discover our handpicked selection of quality items
-            </p>
+            </motion.p>
           </div>
 
           {isLoading ? (
@@ -184,14 +196,20 @@ const OthersPage = () => {
                 ))}
               </div>
 
-              <div className="text-center mt-12">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                viewport={{ once: true }}
+                className="text-center mt-12"
+              >
                 <Link href="/products">
                   <button className="px-8 cursor-pointer py-4 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 text-lg rounded-lg mx-auto">
                     View All Products
                     <FaArrowRight className="w-5 h-5" />
                   </button>
                 </Link>
-              </div>
+              </motion.div>
             </>
           )}
         </div>
@@ -201,12 +219,24 @@ const OthersPage = () => {
       <section className="py-24 bg-white">
         <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+            >
               Browse Categories
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+            >
               Explore our wide range of categories to find exactly what you're looking for
-            </p>
+            </motion.p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -239,12 +269,24 @@ const OthersPage = () => {
       <section className="py-24 bg-gray-50">
         <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+            >
               Why Choose Us?
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+            >
               Experience the best in sustainable shopping with our unique features
-            </p>
+            </motion.p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -275,12 +317,24 @@ const OthersPage = () => {
       <section className="py-24 bg-white">
         <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+            >
               Customer Reviews
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+            >
               See what our customers have to say about their shopping experience
-            </p>
+            </motion.p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -320,6 +374,120 @@ const OthersPage = () => {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-24 bg-gradient-to-br from-indigo-50 via-white to-blue-50">
+        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              How It Works
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Simple steps to buy or sell pre-loved items on UseDify
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="bg-white p-10 rounded-xl shadow-lg flex flex-col items-center"
+            >
+              <div className="bg-blue-100 text-blue-600 rounded-full p-6 mb-6">
+                <FaSearch className="w-8 h-8" />
+              </div>
+              <h3 className="text-2xl font-semibold mb-3">Browse & Discover</h3>
+              <p className="text-lg text-gray-500 text-center">
+                Explore thousands of quality used products across multiple categories.
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="bg-white p-10 rounded-xl shadow-lg flex flex-col items-center"
+            >
+              <div className="bg-green-100 text-green-600 rounded-full p-6 mb-6">
+                <FaShoppingCart className="w-8 h-8" />
+              </div>
+              <h3 className="text-2xl font-semibold mb-3">Buy or Sell</h3>
+              <p className="text-lg text-gray-500 text-center">
+                Purchase with confidence or list your own items in minutes.
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="bg-white p-10 rounded-xl shadow-lg flex flex-col items-center"
+            >
+              <div className="bg-indigo-100 text-indigo-600 rounded-full p-6 mb-6">
+                <FaUser className="w-8 h-8" />
+              </div>
+              <h3 className="text-2xl font-semibold mb-3">Enjoy & Repeat</h3>
+              <p className="text-lg text-gray-500 text-center">
+                Receive your item or your earnings, and keep the cycle going!
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Partners Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Trusted by Leading Brands
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              We collaborate with reputable partners to ensure a safe and premium experience.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-8">
+            {/* Animated partner logos */}
+            {(() => {
+              const logos = [
+                {
+                  src: "https://images.seeklogo.com/logo-png/28/1/apex-shoes-logo-png_seeklogo-289498.png",
+                  alt: "Apex"
+                },
+                {
+                  src: "https://www.playnetwork.com/wp-content/uploads/2018/12/Bata-Logo-200x200.png",
+                  alt: "Bata"
+                },
+                {
+                  src: "https://upload.wikimedia.org/wikipedia/commons/4/44/Lotto-logo-Performance.png",
+                  alt: "Lotto"
+                },
+                {
+                  src: "https://brandlogos.net/wp-content/uploads/2022/10/walton_group-logo_brandlogos.net_hnngy.png",
+                  alt: "walton"
+                },
+                {
+                  src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnQrloETz2rwO4TZm6uFmHPzXVi8GfdpQmAw&s",
+                  alt: "Techno"
+                }
+              ];
+              return logos.map((logo, idx) => (
+                <motion.div
+                  key={logo.alt}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-gray-50 rounded-xl shadow p-6 flex items-center w-52 h-24 justify-center"
+                >
+                  <img src={logo.src} alt={logo.alt} className="h-20 object-contain" />
+                </motion.div>
+              ));
+            })()}
           </div>
         </div>
       </section>

@@ -15,6 +15,8 @@ type ProductListProps = {
   isError?: boolean;
 };
 
+const ITEMS_PER_PAGE = 10;
+
 const ProductItem = ({
   products,
   isLoading,
@@ -25,6 +27,7 @@ const ProductItem = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const filteredItems = products?.filter(
     (product) => product?.userId?._id === user?.id
   );
@@ -139,51 +142,45 @@ const ProductItem = ({
     </div>
   );
 
+  const totalItems = modifiedItems?.length || 0;
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  const paginatedItems = modifiedItems?.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
   return (
     <div>
+ 
       {/* Mobile View */}
       <div className="lg:hidden space-y-4">
         {isLoading && <LoadingState />}
         {isError && <ErrorState />}
-        {!isLoading && !isError && modifiedItems?.length === 0 && <EmptyState />}
+        {!isLoading && !isError && paginatedItems?.length === 0 && <EmptyState />}
         {!isLoading &&
           !isError &&
-          modifiedItems?.map((product: TProduct) => (
+          paginatedItems?.map((product: TProduct) => (
             <MobileCard key={product._id} product={product} />
           ))}
       </div>
 
       {/* Desktop View */}
       <div className="hidden lg:block">
-        <div className="w-full border border-gray-200 rounded-xl overflow-hidden">
+        <div className="w-full border border-gray-200 rounded-xl overflow-hidden bg-white shadow-xl">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-gradient-to-r from-blue-50 to-indigo-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
-                    Product
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
-                    Category
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
-                    Price
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
-                    Condition
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
-                    Location
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
-                    Actions
-                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Product</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Category</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Price</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Condition</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Location</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-gray-100">
                 {isLoading && (
                   <tr>
                     <td colSpan={7}>
@@ -200,7 +197,7 @@ const ProductItem = ({
                   </tr>
                 )}
 
-                {!isLoading && !isError && modifiedItems?.length === 0 && (
+                {!isLoading && !isError && paginatedItems?.length === 0 && (
                   <tr>
                     <td colSpan={7}>
                       <EmptyState />
@@ -210,7 +207,7 @@ const ProductItem = ({
 
                 {!isLoading &&
                   !isError &&
-                  modifiedItems?.map((product: TProduct) => (
+                  paginatedItems?.map((product: TProduct) => (
                     <tr key={product._id} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
@@ -293,8 +290,41 @@ const ProductItem = ({
               </tbody>
             </table>
           </div>
+          {/* Pagination Controls (Bottom, premium look) */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2 py-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-t border-gray-100">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 rounded-lg cursor-pointer font-semibold bg-white text-blue-600 border border-blue-100 shadow-sm hover:bg-blue-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Prev
+              </button>
+              {[...Array(totalPages)].map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentPage(idx + 1)}
+                  className={`px-4 py-2 rounded-lg font-semibold border shadow-sm transition-all duration-200
+                    ${currentPage === idx + 1
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-600 shadow-md'
+                      : 'bg-white text-blue-700 border-blue-100 hover:bg-blue-50'}`}
+                >
+                  {idx + 1}
+                </button>
+              ))}
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 rounded-lg font-semibold bg-white cursor-pointer text-blue-600 border border-blue-100 shadow-sm hover:bg-blue-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
       </div>
+
+       
 
       {/* Edit Modal */}
       {isModalOpen && (

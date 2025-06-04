@@ -12,6 +12,7 @@ import {
   FiUsers,
   FiHeart,
   FiShoppingCart,
+  FiBarChart,
 } from "react-icons/fi";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
@@ -43,7 +44,7 @@ const Sidebar = ({ children }: SidebarProps) => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const userSidebarItems = [
+  const dashboardSidebarItems = [
     {
       href: "/dashboard/profile",
       icon: <FiUser className="w-6 h-6" />,
@@ -73,6 +74,11 @@ const Sidebar = ({ children }: SidebarProps) => {
 
   const adminSidebarItems = [
     {
+      href: "/dashboard",
+      icon: <FiBarChart className="w-6 h-6" />,
+      label: "Dashboard Overview",
+    },
+    {
       href: "/dashboard/manage-items",
       icon: <FiList className="w-6 h-6" />,
       label: "Manage Items",
@@ -84,8 +90,7 @@ const Sidebar = ({ children }: SidebarProps) => {
     },
   ];
 
-  const sidebarItems =
-    user?.role === "admin" ? adminSidebarItems : userSidebarItems;
+  const sidebarItems = user?.role === "admin" ? adminSidebarItems : dashboardSidebarItems;
 
   return (
     <div className="flex">

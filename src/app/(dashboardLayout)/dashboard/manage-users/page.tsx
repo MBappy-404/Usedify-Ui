@@ -1,14 +1,17 @@
 "use client";
+import React, { useState } from "react";
 import { useDeactivedUserMutation } from "@/redux/features/adminAction/adminAction";
 import { useGetAllUserQuery } from "@/redux/features/user/userApi";
 import { TUser } from "@/types";
-import React from "react";
 import { toast } from "sonner";
 import { FiLoader, FiUser, FiMail, FiShield, FiAlertCircle } from "react-icons/fi";
+
+const ITEMS_PER_PAGE = 10;
 
 const ManageUsers = () => {
   const { data, isLoading, isError, refetch } = useGetAllUserQuery(undefined);
   const [deactiveUser] = useDeactivedUserMutation();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleDeactivate = async (id: string) => {
     const toastId = toast.loading("Updating user status...");
@@ -23,6 +26,11 @@ const ManageUsers = () => {
       });
     }
   };
+
+  const users = data?.data || [];
+  const totalItems = users.length;
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  const paginatedUsers = users.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   return (
     <div className="p-4 md:p-6 lg:p-8">
@@ -109,17 +117,17 @@ const ManageUsers = () => {
 
       {/* Desktop View - Table Layout */}
       <div className="hidden lg:block">
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-white rounded-xl shadow-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-gradient-to-r from-blue-50 to-indigo-50">
                 <tr>
-                  <th scope="col" className="py-3.5 px-4 text-left text-sm font-medium text-gray-600 whitespace-nowrap">NO</th>
-                  <th scope="col" className="py-3.5 px-4 text-left text-sm font-medium text-gray-600 whitespace-nowrap">NAME</th>
-                  <th scope="col" className="py-3.5 px-4 text-left text-sm font-medium text-gray-600 whitespace-nowrap">EMAIL</th>
-                  <th scope="col" className="py-3.5 px-4 text-left text-sm font-medium text-gray-600 whitespace-nowrap">ROLE</th>
-                  <th scope="col" className="py-3.5 px-4 text-left text-sm font-medium text-gray-600 whitespace-nowrap">STATUS</th>
-                  <th scope="col" className="py-3.5 px-4 text-left text-sm font-medium text-gray-600 whitespace-nowrap">ACTION</th>
+                  <th scope="col" className="py-3.5 px-4 text-left text-sm font-bold text-gray-700 whitespace-nowrap">NO</th>
+                  <th scope="col" className="py-3.5 px-4 text-left text-sm font-bold text-gray-700 whitespace-nowrap">NAME</th>
+                  <th scope="col" className="py-3.5 px-4 text-left text-sm font-bold text-gray-700 whitespace-nowrap">EMAIL</th>
+                  <th scope="col" className="py-3.5 px-4 text-left text-sm font-bold text-gray-700 whitespace-nowrap">ROLE</th>
+                  <th scope="col" className="py-3.5 px-4 text-left text-sm font-bold text-gray-700 whitespace-nowrap">STATUS</th>
+                  <th scope="col" className="py-3.5 px-4 text-left text-sm font-bold text-gray-700 whitespace-nowrap">ACTION</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -145,7 +153,7 @@ const ManageUsers = () => {
                   </tr>
                 )}
 
-                {!isLoading && !isError && data?.data?.length === 0 && (
+                {!isLoading && !isError && paginatedUsers.length === 0 && (
                   <tr>
                     <td colSpan={6} className="py-8 text-center text-gray-500">
                       No users found.
@@ -155,9 +163,9 @@ const ManageUsers = () => {
 
                 {!isLoading &&
                   !isError &&
-                  data?.data?.map((user: TUser, index: number) => (
+                  paginatedUsers.map((user: TUser, index: number) => (
                     <tr key={user._id} className="hover:bg-gray-50 transition-colors">
-                      <td className="py-3 px-4 text-sm text-gray-900">{index + 1}</td>
+                      <td className="py-3 px-4 text-sm text-gray-900">{(currentPage - 1) * ITEMS_PER_PAGE + index + 1}</td>
                       <td className="py-3 px-4 text-sm text-gray-900">{user.name}</td>
                       <td className="py-3 px-4 text-sm text-gray-900">{user.email}</td>
                       <td className="py-3 px-4 text-sm text-gray-900 capitalize">{user.role}</td>
@@ -189,6 +197,37 @@ const ManageUsers = () => {
               </tbody>
             </table>
           </div>
+          {/* Pagination Controls (Bottom, premium look) */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2 py-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-t border-gray-100">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 rounded-lg font-semibold bg-white text-blue-600 border border-blue-100 shadow-sm hover:bg-blue-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Prev
+              </button>
+              {[...Array(totalPages)].map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentPage(idx + 1)}
+                  className={`px-4 py-2 rounded-lg font-semibold border shadow-sm transition-all duration-200
+                    ${currentPage === idx + 1
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-600 shadow-md'
+                      : 'bg-white text-blue-700 border-blue-100 hover:bg-blue-50'}`}
+                >
+                  {idx + 1}
+                </button>
+              ))}
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 rounded-lg font-semibold bg-white text-blue-600 border border-blue-100 shadow-sm hover:bg-blue-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

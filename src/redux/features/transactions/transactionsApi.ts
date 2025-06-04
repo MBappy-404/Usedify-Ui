@@ -37,7 +37,7 @@ const orderApi = baseApi.injectEndpoints({
     }),
     getAllOrders: builder.query({
       query: () => ({
-        url: `/orders/`,
+        url: `/transactions/orders/`,
         method: "GET",
       }),
       providesTags: ["transactions"],

@@ -20,17 +20,29 @@ const SignInPage: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<SignInFormData>();
 
   const [showPassword, setShowPassword] = useState(false);
   const [login] = useSigninMutation();
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [selectedDemo, setSelectedDemo] = useState<null | "admin" | "user">(null);
+
+  const setDemoCredentials = (type: "admin" | "user") => {
+    setSelectedDemo(type);
+    if (type === "admin") {
+      setValue("email", "usedifyadmin@gmail.com");
+      setValue("password", "usedifyadmin@111");
+    } else {
+      setValue("email", "user1@gmail.com");
+      setValue("password", "123456");
+    }
+  };
 
   const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
     const toastId = toast.loading("Logining........");
     const res = await login(data);
-
 
     if (res?.data?.success) {
       toast.success("Login successfully", {
@@ -56,6 +68,34 @@ const SignInPage: React.FC = () => {
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
           Welcome Back
         </h2>
+
+        {/* Demo Credentials Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+          <button
+            type="button"
+            onClick={() => setDemoCredentials("admin")}
+            className={`w-full sm:w-1/2 border transition-all font-semibold py-2 px-4 rounded-lg cursor-pointer
+            ${
+              selectedDemo === "admin"
+                ? "bg-indigo-600 text-white border-indigo-600"
+                : "bg-indigo-100 hover:bg-indigo-200 text-indigo-700 border-indigo-200"
+            }`}
+          >
+            Use Admin Demo Credentials
+          </button>
+          <button
+            type="button"
+            onClick={() => setDemoCredentials("user")}
+            className={`w-full sm:w-1/2 border transition-all font-semibold py-2 px-4 rounded-lg cursor-pointer
+            ${
+              selectedDemo === "user"
+                ? "bg-purple-600 text-white border-purple-600"
+                : "bg-purple-100 hover:bg-purple-200 text-purple-700 border-purple-200"
+            }`}
+          >
+            Use User Demo Credentials
+          </button>
+        </div>
 
         {/* Email Field */}
         <div className="mb-6">
